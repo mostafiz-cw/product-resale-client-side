@@ -1,9 +1,10 @@
 import React, { useContext, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import Spinner from "../Components/Spinner";
 import { AuthContext } from "../Contexts/AuthProvider";
 
 const LogIn = () => {
-  const { loginWithEmail } = useContext(AuthContext);
+  const { loginWithEmail, loader, setLoader } = useContext(AuthContext);
   const [error, setError] = useState("");
 
   // jump others page after log in
@@ -12,6 +13,7 @@ const LogIn = () => {
   // log in with email and password
   const handleLogin = (event) => {
     event.preventDefault();
+    setLoader(true);
     setError("");
     const form = event.target;
     const email = form.email.value;
@@ -22,16 +24,19 @@ const LogIn = () => {
     loginWithEmail(email, password)
       .then((result) => {
         console.log(result.user);
+        setLoader(false);
         // navigate(from, { replace: true });
         navigate("/");
       })
       .catch((err) => {
         setError(err.message);
+        setLoader(false);
       });
   };
 
   return (
     <div>
+      <div>{loader && <Spinner></Spinner>}</div>
       <div className="m-auto xl:container px-12 sm:px-0 mx-auto">
         <div className="mx-auto h-full sm:w-max">
           <div className="m-auto  py-12">
