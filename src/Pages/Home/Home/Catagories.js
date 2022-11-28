@@ -16,7 +16,7 @@ const Catagories = () => {
         <div className="w-full flex flex-col sm:flex-row gap-4">
           {catagory?.map((catagories) => (
             <Link
-              to={`/${catagories.catagory.replaceAll(" ","")}`}
+              to={`/${catagories._id}`}
               className="flex-1 bg-purple-700
                p-4 cursor-pointer text-center font-bold uppercase text-white"
             >

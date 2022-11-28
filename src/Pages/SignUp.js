@@ -1,11 +1,13 @@
 import React, { useContext, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import Spinner from "../Components/Spinner";
 import { AuthContext } from "../Contexts/AuthProvider";
 // import useTitle from "../Hooks/useTitle";
 
 const SignUp = () => {
-  const { createUser } = useContext(AuthContext);
+  const { createUser, loader, setLoader } = useContext(AuthContext);
   const [roler, setRoler] = useState();
+  const [error, setError] = useState("");
 
   // dynamic title
   //   useTitle("Signup");
@@ -16,24 +18,31 @@ const SignUp = () => {
   // handle event
   const handleSignup = (event) => {
     event.preventDefault();
+    setLoader(true);
+    setError("");
     const form = event.target;
     const name = form.name.value;
     const email = form.email.value;
     const password = form.password.value;
     const role = roler;
-    console.log(name, email, password,role);
+    console.log(name, email, password, role);
 
     createUser(email, password)
       .then((result) => {
         const user = result.user;
         console.log(user);
+        setLoader(false);
         navigate("/");
       })
-      .catch((err) => console.error(err));
+      .catch((err) => {
+        setError(err.message);
+        setLoader(false);
+      });
   };
 
   return (
     <div>
+      <div>{loader && <Spinner></Spinner>}</div>
       <div className="m-auto xl:container px-12 sm:px-0 mx-auto">
         <div className="mx-auto h-full sm:w-max">
           <div className="m-auto  py-12">
@@ -84,12 +93,11 @@ const SignUp = () => {
                   </div>
                 </div>
                 <div className="flex items-end justify-between">
-
                   <div className="flex justify-center">
                     <div>
                       <div className="form-check">
                         <input
-                        onChange={e => setRoler(e.target.value)}
+                          onChange={(e) => setRoler(e.target.value)}
                           className="form-check-input appearance-none rounded-full h-4 w-4 border border-gray-300 bg-white checked:bg-blue-600 checked:border-blue-600 focus:outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain float-left mr-2 cursor-pointer"
                           type="radio"
                           value="Buyer"
@@ -105,7 +113,7 @@ const SignUp = () => {
                       </div>
                       <div className="form-check">
                         <input
-                        onChange={e => setRoler(e.target.value)}
+                          onChange={(e) => setRoler(e.target.value)}
                           className="form-check-input appearance-none rounded-full h-4 w-4 border border-gray-300 bg-white checked:bg-blue-600 checked:border-blue-600 focus:outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain float-left mr-2 cursor-pointer"
                           type="radio"
                           value="Seller"
@@ -140,6 +148,7 @@ const SignUp = () => {
                   </button>
                 </div>
                 <div>
+                  <small className="text-red-600">{error}</small>
                   <button className="w-full rounded-full bg-sky-500 dark:bg-sky-400 h-11 flex items-center justify-center px-6 py-3 transition hover:bg-sky-600 focus:bg-sky-600 active:bg-sky-800">
                     <span className="text-base font-semibold text-white dark:text-gray-900">
                       Sign Up
