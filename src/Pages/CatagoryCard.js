@@ -1,13 +1,16 @@
 import React from 'react';
 import { useLoaderData } from 'react-router-dom';
+import Cards from './Cards';
 
 const CatagoryCard = () => {
-    const card = useLoaderData();
-    console.log(card);
+    const cards = useLoaderData();
+    console.log(cards);
 
     return (
         <div>
-            <p>Hello world</p>
+            {
+                cards.map(card => <Cards key={card._id} card={card}></Cards>)
+            }
         </div>
     );
 };
