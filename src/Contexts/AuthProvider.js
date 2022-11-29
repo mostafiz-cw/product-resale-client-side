@@ -38,16 +38,18 @@ const AuthProvider = ({children}) => {
     },[])
 
 
+    // uddate user 
+    const updateUser = (userInfo) => {
+        return updateProfile(auth.currentUser, userInfo)
+    };
+
     // user log out 
     const logOut = () => {
         setLoading(true);
         return signOut(auth);
     };
 
-    // uddate user 
-    const updateUser = (userInfo) => {
-        return updateProfile(user, userInfo)
-    };
+    
 
 
 

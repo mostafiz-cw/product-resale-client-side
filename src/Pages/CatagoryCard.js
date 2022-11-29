@@ -1,10 +1,11 @@
-import React from "react";
+import React, { useState } from "react";
 import { useLoaderData } from "react-router-dom";
 import Modal from "../Components/Modal";
 import ModalButton from "../Components/ModalButton";
 const CatagoryCard = () => {
   const cards = useLoaderData();
   console.log(cards);
+  const [cardData, setCardData] = useState(null);
 
   return (
     <div>
@@ -42,7 +43,12 @@ const CatagoryCard = () => {
                         Time: {card.postingTime}
                       </span>
                     </div>
-                    <ModalButton></ModalButton>
+                    <ModalButton
+                      setCardData={setCardData}
+                      productName={card.productName}
+                      resalePrice={card.resalePrice}
+                      img={card.img}
+                    ></ModalButton>
                     {/* <Link className="text-white font-semibold inline-flex items-center md:mb-2 lg:mb-0 bg-purple-600 py-2 px-4 rounded">
                       Book Now
                     </Link> */}
@@ -50,7 +56,7 @@ const CatagoryCard = () => {
                 </div>
               </div>
             ))}
-            <Modal></Modal>
+            {cardData && <Modal cardData={cardData} setCardData={setCardData}></Modal>}
           </div>
         </div>
       </section>
