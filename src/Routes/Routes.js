@@ -1,4 +1,5 @@
 import { createBrowserRouter } from "react-router-dom";
+import DashboardLayout from "../Layout/DashboardLayout";
 import Main from "../Layout/Main";
 import CatagoryCard from "../Pages/CatagoryCard";
 import Dashboard from "../Pages/Dashboard";
@@ -27,12 +28,25 @@ const router = createBrowserRouter([
       {
         path: "/:id",
         element: <CatagoryCard></CatagoryCard>,
-        loader: ({ params }) => fetch(`https://a12-used-products-resalling-app-server-side.vercel.app/${params.id}`),
+        loader: ({ params }) =>
+          fetch(
+            `https://a12-used-products-resalling-app-server-side.vercel.app/${params.id}`
+          ),
       },
+    ],
+  },
+  {
+    path: "/dashboard",
+    element: (
+      <PrivateRoute>
+        <DashboardLayout></DashboardLayout>
+      </PrivateRoute>
+    ),
+    children: [
       {
         path: "/dashboard",
-        element: <PrivateRoute><Dashboard></Dashboard></PrivateRoute>
-      }
+        element: <Dashboard></Dashboard>,
+      },
     ],
   },
 ]);
