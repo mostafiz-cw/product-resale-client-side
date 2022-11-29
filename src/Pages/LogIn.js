@@ -1,11 +1,14 @@
 import React, { useContext, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import Spinner from "../Components/Spinner";
 import { AuthContext } from "../Contexts/AuthProvider";
 
 const LogIn = () => {
   const { loginWithEmail, loader, setLoader } = useContext(AuthContext);
   const [error, setError] = useState("");
+  const location = useLocation();
+
+  const from = location.state?.from?.pathname || "/";
 
   // jump others page after log in
   const navigate = useNavigate();
@@ -26,7 +29,7 @@ const LogIn = () => {
         console.log(result.user);
         setLoader(false);
         // navigate(from, { replace: true });
-        navigate("/");
+        navigate(from, {replace: true});
       })
       .catch((err) => {
         setError(err.message);

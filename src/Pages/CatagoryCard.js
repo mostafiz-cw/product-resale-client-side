@@ -32,17 +32,17 @@ const CatagoryCard = () => {
                       <p>Saller Name: {card.sallerName}</p>
                       <p>Location: {card.location}</p>
                     </div>
-                    <div className="flex items-center flex-wrap ">
-                      <Link className="text-white font-semibold inline-flex items-center md:mb-2 lg:mb-0 bg-purple-600 py-2 px-4 rounded">
-                        Book Now
-                      </Link>
-                      <span className="text-gray-400 mr-3 inline-flex items-center lg:ml-auto md:ml-0 ml-auto leading-none text-sm pr-3 py-1 border-r-2 border-gray-200">
+                    <div className="flex items-center justify-between mb-4">
+                      <span className="text-gray-400 leading-none text-sm">
                         Year Of Use: {card.yearofUse}
                       </span>
-                      <span className="text-gray-400 inline-flex items-center leading-none text-sm">
-                        {card.postingTime}
+                      <span className="text-gray-400 leading-none text-sm">
+                        Time: {card.postingTime}
                       </span>
                     </div>
+                    <Link className="text-white font-semibold inline-flex items-center md:mb-2 lg:mb-0 bg-purple-600 py-2 px-4 rounded">
+                      Book Now
+                    </Link>
                   </div>
                 </div>
               </div>

@@ -1,11 +1,12 @@
 import React, { useContext, useState } from "react";
+import toast from "react-hot-toast";
 import { Link, useNavigate } from "react-router-dom";
 import Spinner from "../Components/Spinner";
 import { AuthContext } from "../Contexts/AuthProvider";
 // import useTitle from "../Hooks/useTitle";
 
 const SignUp = () => {
-  const { createUser, loader, setLoader } = useContext(AuthContext);
+  const { createUser, loader, setLoader, updateUser } = useContext(AuthContext);
   const [roler, setRoler] = useState();
   const [error, setError] = useState("");
 
@@ -32,7 +33,14 @@ const SignUp = () => {
         const user = result.user;
         console.log(user);
         setLoader(false);
+        toast("User Create Successfully!")
         navigate("/");
+        const userInfo = {
+          displayName: name
+        };
+        updateUser(userInfo)
+        .then(()=> {})
+        .catch((err)=> console.log(err))
       })
       .catch((err) => {
         setError(err.message);
