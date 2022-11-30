@@ -7,8 +7,11 @@ const MyOrder = () => {
 
   useEffect(() => {
     fetch(
-      `https://a12-used-products-resalling-app-server-side.vercel.app/myorder?email=${user.email}`
-    )
+      `https://a12-used-products-resalling-app-server-side.vercel.app/myorder?email=${user.email}`, {
+        headers: {
+          authorization: `bearer ${localStorage.getItem("accessToken")}`
+        }
+      })
       .then((res) => res.json())
       .then((data) => setMyOrder(data))
       .catch((err) => console.error(err));
