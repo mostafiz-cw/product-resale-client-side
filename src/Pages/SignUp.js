@@ -3,6 +3,7 @@ import toast from "react-hot-toast";
 import { Link, useNavigate } from "react-router-dom";
 import Spinner from "../Components/Spinner";
 import { AuthContext } from "../Contexts/AuthProvider";
+import useToken from "../Hooks/useToken";
 // import useTitle from "../Hooks/useTitle";
 
 const SignUp = () => {
@@ -10,11 +11,20 @@ const SignUp = () => {
   const [roler, setRoler] = useState();
   const [error, setError] = useState("");
 
-  // dynamic title
-  //   useTitle("Signup");
+  const [createdUserEmail, setCreatedUserEmail] = useState('');
+  const [token] = useToken(createdUserEmail);
 
   // jump others page after log in
   const navigate = useNavigate();
+
+  if(token){
+    navigate("/");
+  }
+
+  // dynamic title
+  //   useTitle("Signup");
+
+  
 
   // handle event
   const handleSignup = (event) => {
@@ -62,20 +72,21 @@ const SignUp = () => {
       .then((res) => res.json())
       .then((data) => {
 
-        getUserToken(email);
+        setCreatedUserEmail(email);
+        // getUserToken(email);
       });
   };
 
-  const getUserToken = email => {
-    fetch(`http://localhost:5000/jwt?email=${email}`)
-    .then(res => res.json())
-    .then(data => {
-      if(data.accessToken){
-        localStorage.setItem('accessToken', data.accessToken);
-        navigate("/");
-      }
-    })
-  }
+  // const getUserToken = email => {
+  //   fetch(`https://a12-used-products-resalling-app-server-side.vercel.app/jwt?email=${email}`)
+  //   .then(res => res.json())
+  //   .then(data => {
+  //     if(data.accessToken){
+  //       localStorage.setItem('accessToken', data.accessToken);
+  //       navigate("/");
+  //     }
+  //   })
+  // }
 
   return (
     <div>
@@ -139,11 +150,12 @@ const SignUp = () => {
                           type="radio"
                           required
                           value="Buyer"
+                          checked="checked"
                           name="flexRadioDefault"
                           id="flexRadioDefault1"
                         />
                         <label
-                          className="form-check-label inline-block text-gray-800"
+                          className="form-check-label inline-block text-gray-800 cursor-pointer"
                           htmlFor="flexRadioDefault1"
                         >
                           Buyer
@@ -161,7 +173,7 @@ const SignUp = () => {
                           defaultChecked=""
                         />
                         <label
-                          className="form-check-label inline-block text-gray-800"
+                          className="form-check-label inline-block text-gray-800 cursor-pointer"
                           htmlFor="flexRadioDefault2"
                         >
                           Seller

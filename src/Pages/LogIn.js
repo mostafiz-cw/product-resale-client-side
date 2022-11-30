@@ -2,16 +2,23 @@ import React, { useContext, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import Spinner from "../Components/Spinner";
 import { AuthContext } from "../Contexts/AuthProvider";
+import useToken from "../Hooks/useToken";
 
 const LogIn = () => {
   const { loginWithEmail, loader, setLoader } = useContext(AuthContext);
   const [error, setError] = useState("");
+  const [loginUserEmail, setLoginUserEmail] = useState("");
+  const [token] = useToken(loginUserEmail);
   const location = useLocation();
 
   const from = location.state?.from?.pathname || "/";
 
   // jump others page after log in
   const navigate = useNavigate();
+
+  if (token) {
+    navigate(from, { replace: true });
+  }
 
   // log in with email and password
   const handleLogin = (event) => {
@@ -26,10 +33,10 @@ const LogIn = () => {
 
     loginWithEmail(email, password)
       .then((result) => {
-        console.log(result.user);
+        // console.log(result.user);
         setLoader(false);
         // navigate(from, { replace: true });
-        navigate(from, {replace: true});
+        setLoginUserEmail(email);
       })
       .catch((err) => {
         setError(err.message);
