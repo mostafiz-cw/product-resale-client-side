@@ -26,28 +26,44 @@ const SignUp = () => {
     const email = form.email.value;
     const password = form.password.value;
     const role = roler;
-    console.log(name, email, password, role);
+    // console.log(name, email, password, role);
 
     createUser(email, password)
       .then((result) => {
-        const user = result.user;
-        console.log(user);
+        // const user = result.user;
+        // console.log(user);
         setLoader(false);
-        toast("User Create Successfully!")
-        navigate("/");
+        toast("User Create Successfully!");
         const userInfo = {
-          displayName: name
+          displayName: name,
         };
-        console.log(userInfo.displayName + "user");
+        // console.log(userInfo.displayName + "user");
         updateUser(userInfo)
-        .then(()=> {
-          console.log(user);
-        })
-        .catch((err)=> console.log(err))
+          .then(() => {
+            saveUser(name, email, role);
+          })
+          .catch((err) => console.log(err));
       })
       .catch((err) => {
         setError(err.message);
         setLoader(false);
+      });
+  };
+
+  const saveUser = (name, email, role) => {
+    const user = { name, email, role };
+    fetch("https://a12-used-products-resalling-app-server-side.vercel.app/users", {
+      method: "POST",
+      headers: {
+        "content-type": "application/json",
+      },
+      body: JSON.stringify(user),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+
+        console.log(data);
+        navigate("/");
       });
   };
 
@@ -111,6 +127,7 @@ const SignUp = () => {
                           onChange={(e) => setRoler(e.target.value)}
                           className="form-check-input appearance-none rounded-full h-4 w-4 border border-gray-300 bg-white checked:bg-blue-600 checked:border-blue-600 focus:outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain float-left mr-2 cursor-pointer"
                           type="radio"
+                          required
                           value="Buyer"
                           name="flexRadioDefault"
                           id="flexRadioDefault1"
@@ -127,6 +144,7 @@ const SignUp = () => {
                           onChange={(e) => setRoler(e.target.value)}
                           className="form-check-input appearance-none rounded-full h-4 w-4 border border-gray-300 bg-white checked:bg-blue-600 checked:border-blue-600 focus:outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain float-left mr-2 cursor-pointer"
                           type="radio"
+                          required
                           value="Seller"
                           name="flexRadioDefault"
                           id="flexRadioDefault2"

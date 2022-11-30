@@ -1,8 +1,13 @@
 import React, { useContext } from "react";
+import toast from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../Contexts/AuthProvider";
 
 const Modal = ({ cardData, setCardData }) => {
   const { user } = useContext(AuthContext);
+
+  // jump others page after log in
+  const navigate = useNavigate();
 
   const handleModalForm = (event) => {
     event.preventDefault();
@@ -14,14 +19,35 @@ const Modal = ({ cardData, setCardData }) => {
     const mobileNo = form.mobileNo.value;
     const location = form.location.value;
     const myOrder = {
-        name,
-        email,
-        productName,
-        price,
-        mobileNo,
-        location,
-        img: cardData.img
+      name,
+      email,
+      productName,
+      price,
+      mobileNo,
+      location,
+      img: cardData.img,
     };
+
+    // post my order info
+    fetch(
+      "https://a12-used-products-resalling-app-server-side.vercel.app/myorder",
+      {
+        method: "POST",
+        headers: {
+          "content-type": "application/json",
+        },
+        body: JSON.stringify(myOrder),
+      }
+    )
+    .then((res) => res.json())
+    .then(data => {
+      if(data.acknowledged){
+        toast("Your item is booked.");
+        navigate("/dashboard/myorder");
+
+      }
+    })
+
     console.log(myOrder);
     setCardData(null);
   };
@@ -61,7 +87,7 @@ const Modal = ({ cardData, setCardData }) => {
                 <span className="label-text">Email</span>
               </label>
               <input
-                type="text"
+                type="email"
                 placeholder="Type here"
                 name="email"
                 value={user.email}
@@ -100,7 +126,7 @@ const Modal = ({ cardData, setCardData }) => {
                 <span className="label-text">Mobile No</span>
               </label>
               <input
-                type="text"
+                type="number"
                 placeholder="Mobile No"
                 name="mobileNo"
                 required
@@ -120,9 +146,9 @@ const Modal = ({ cardData, setCardData }) => {
               />
             </div>
             <div className="form-control w-full max-w-xs mx-auto mt-5">
-              <button
-                className="input input-bordered w-full max-w-xs text-white font-semibold items-center md:mb-2 lg:mb-0 bg-purple-600 py-2 px-4 rounded mx-auto"
-              >Submit</button>
+              <button className="input input-bordered w-full max-w-xs text-white font-semibold items-center md:mb-2 lg:mb-0 bg-purple-600 py-2 px-4 rounded mx-auto">
+                Submit
+              </button>
             </div>
           </form>
         </div>
