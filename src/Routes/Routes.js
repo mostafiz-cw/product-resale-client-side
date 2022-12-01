@@ -5,6 +5,9 @@ import CatagoryCard from "../Pages/CatagoryCard";
 import Dashboard from "../Pages/Dashboard/Dashboard";
 import MyOrder from "../Pages/Dashboard/MyOrder/MyOrder";
 import Wishlist from "../Pages/Dashboard/Mywishlist/Wishlist";
+import AddProduct from "../Pages/Dashboard/Seller/AddProduct";
+import MyBuyers from "../Pages/Dashboard/Seller/MyBuyers";
+import MyProducts from "../Pages/Dashboard/Seller/MyProducts";
 import Home from "../Pages/Home/Home/Home";
 import LogIn from "../Pages/LogIn";
 import SignUp from "../Pages/SignUp";
@@ -29,7 +32,7 @@ const router = createBrowserRouter([
       },
       {
         path: "/:id",
-        element: <CatagoryCard></CatagoryCard>,
+        element: <PrivateRoute><CatagoryCard></CatagoryCard></PrivateRoute>,
         loader: ({ params }) =>
           fetch(
             `https://a12-used-products-resalling-app-server-side.vercel.app/${params.id}`
@@ -56,6 +59,18 @@ const router = createBrowserRouter([
       {
         path: "/dashboard/wishlist",
         element: <Wishlist></Wishlist>
+      },
+      {
+        path: "/dashboard/addproduct",
+        element: <AddProduct></AddProduct>
+      },
+      {
+        path: "/dashboard/myproducts",
+        element: <MyProducts></MyProducts>
+      },
+      {
+        path: "/dashboard/mybuyers",
+        element: <MyBuyers></MyBuyers>
       }
     ],
   },
