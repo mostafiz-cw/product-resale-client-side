@@ -8,14 +8,12 @@
 * react router
 * css framework
 * Tailwind
-* Bootstrap
-* react bootstarap
 * firebase for auth
 * express js for backend
 * vercel deployment
 * mongodb atlas
 * express.js
-* react-photo-view
+* jwt
 
 
 
@@ -23,13 +21,14 @@
 
 * 100% responsive
 * Sign in and register form
-* Log out nad nav bar 
-* Toggle Button
+* Log out and nav bar 
 * add service 
 * CRUD oparation
-* my reviews
+* admin route
+* seller route
+* buyers route
+* blog section
 
-# Features and Functionality
 ## Admin Access
 
 adminEmail: test@admin.com
