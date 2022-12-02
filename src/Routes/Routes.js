@@ -1,6 +1,7 @@
 import { createBrowserRouter } from "react-router-dom";
 import DashboardLayout from "../Layout/DashboardLayout";
 import Main from "../Layout/Main";
+import Blog from "../Pages/Blog";
 import CatagoryCard from "../Pages/CatagoryCard";
 import Allbuyer from "../Pages/Dashboard/Admin/Allbuyer";
 import AllSeller from "../Pages/Dashboard/Admin/AllSeller";
@@ -12,6 +13,7 @@ import MyBuyers from "../Pages/Dashboard/Seller/MyBuyers";
 import MyProducts from "../Pages/Dashboard/Seller/MyProducts";
 import Home from "../Pages/Home/Home/Home";
 import LogIn from "../Pages/LogIn";
+import NotFound404 from "../Pages/NotFound404";
 import SignUp from "../Pages/SignUp";
 import PrivateRoute from "../PrivateRoute/PrivateRoute";
 
@@ -33,8 +35,16 @@ const router = createBrowserRouter([
         element: <SignUp></SignUp>,
       },
       {
+        path: "/blog",
+        element: <Blog></Blog>
+      },
+      {
         path: "/:id",
-        element: <PrivateRoute><CatagoryCard></CatagoryCard></PrivateRoute>,
+        element: (
+          <PrivateRoute>
+            <CatagoryCard></CatagoryCard>
+          </PrivateRoute>
+        ),
         loader: ({ params }) =>
           fetch(
             `https://a12-used-products-resalling-app-server-side.vercel.app/${params.id}`
@@ -56,33 +66,37 @@ const router = createBrowserRouter([
       },
       {
         path: "/dashboard/myorder",
-        element: <MyOrder></MyOrder>
+        element: <MyOrder></MyOrder>,
       },
       {
         path: "/dashboard/wishlist",
-        element: <Wishlist></Wishlist>
+        element: <Wishlist></Wishlist>,
       },
       {
         path: "/dashboard/addproduct",
-        element: <AddProduct></AddProduct>
+        element: <AddProduct></AddProduct>,
       },
       {
         path: "/dashboard/myproducts",
-        element: <MyProducts></MyProducts>
+        element: <MyProducts></MyProducts>,
       },
       {
         path: "/dashboard/mybuyers",
-        element: <MyBuyers></MyBuyers>
+        element: <MyBuyers></MyBuyers>,
       },
       {
         path: "/dashboard/allsellers",
-        element: <AllSeller></AllSeller>
+        element: <AllSeller></AllSeller>,
       },
       {
         path: "/dashboard/allbuyers",
-        element: <Allbuyer></Allbuyer>
-      }
+        element: <Allbuyer></Allbuyer>,
+      },
     ],
+  },
+  {
+    path: "*",
+    element: <NotFound404></NotFound404>,
   },
 ]);
 

@@ -1,4 +1,5 @@
 import React, { useContext, useState } from "react";
+import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../../../Contexts/AuthProvider";
 
@@ -37,6 +38,7 @@ const AddProduct = () => {
             .then((res) => res.json())
             .then((data) => {
                 if(data.acknowledged){
+                    toast("Successfully Added Your Product!");
                     navigate("/dashboard/myproducts");
                 }
             })

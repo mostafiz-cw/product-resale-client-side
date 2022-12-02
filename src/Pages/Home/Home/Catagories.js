@@ -12,11 +12,15 @@ const Catagories = () => {
 
   return (
     <div>
+      <p className="flex justify-center mb-6 text-3xl font-semibold">
+        ALL CATAGORIES
+      </p>
       <div className="flex items-center justify-cente container mx-auto">
         <div className="w-full flex flex-col sm:flex-row gap-4">
           {catagory?.map((catagories) => (
             <Link
               to={`/${catagories._id}`}
+              key={catagories._id}
               className="flex-1 bg-purple-700
                p-4 cursor-pointer text-center font-bold uppercase text-white"
             >

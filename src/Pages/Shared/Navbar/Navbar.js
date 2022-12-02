@@ -4,7 +4,7 @@ import { AuthContext } from "../../../Contexts/AuthProvider";
 
 const Navbar = () => {
   const { user, logOut } = useContext(AuthContext);
-  console.log(user);
+  // console.log(user);
 
   // event signout
   const handleLogOut = () => {
@@ -19,7 +19,7 @@ const Navbar = () => {
         <Link to="/">Home</Link>
       </li>
       <li>
-        <Link to="/">Blog</Link>
+        <Link to="/blog">Blog</Link>
       </li>
       {user?.uid ? (
         <li>
@@ -75,7 +75,7 @@ const Navbar = () => {
             </ul>
           </div>
           <Link to="/" className="btn btn-ghost text-white text-xl">
-            Resalling
+            Furniture Exchange
           </Link>
         </div>
         <div className="navbar-center hidden lg:flex">
@@ -98,7 +98,11 @@ const Navbar = () => {
           )}
         </div>
         <div className="navbar-end lg:hidden">
-          <label htmlFor="my-drawer-2" tabIndex={2} className="btn btn-ghost lg:hidden text-white">
+          <label
+            htmlFor="my-drawer-2"
+            tabIndex={2}
+            className="btn btn-ghost lg:hidden text-white"
+          >
             <svg
               xmlns="http://www.w3.org/2000/svg"
               className="h-5 w-5"

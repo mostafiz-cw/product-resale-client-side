@@ -1,3 +1,4 @@
+import { GoogleAuthProvider } from "firebase/auth";
 import React, { useContext, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import Spinner from "../Components/Spinner";
@@ -5,16 +6,16 @@ import { AuthContext } from "../Contexts/AuthProvider";
 import useToken from "../Hooks/useToken";
 
 const LogIn = () => {
-  const { loginWithEmail, loader, setLoader } = useContext(AuthContext);
+  const { loginWithEmail, loader, setLoader, signInProvider } =
+    useContext(AuthContext);
   const [error, setError] = useState("");
   const [loginUserEmail, setLoginUserEmail] = useState("");
   const [token] = useToken(loginUserEmail);
+  // jump others page after log in
+  const navigate = useNavigate();
   const location = useLocation();
 
   const from = location.state?.from?.pathname || "/";
-
-  // jump others page after log in
-  const navigate = useNavigate();
 
   if (token) {
     navigate(from, { replace: true });
@@ -44,6 +45,47 @@ const LogIn = () => {
       });
   };
 
+  // google auth provider
+  const googleProvider = new GoogleAuthProvider();
+
+  // log in with google
+  const signInWithGoogle = () => {
+    setLoader(true);
+    signInProvider(googleProvider)
+      .then((result) => {
+        const user = result.user;
+        console.log(user);
+        const name = user.displayName;
+        const role = "Buyer";
+        const email = user?.email;
+        setLoader(false);
+        saveUser(name, email, role);
+        setLoginUserEmail(email);
+        console.log(name, email, role);
+        // navigate("/");
+      })
+      .catch((err) => {
+        setError(err.message);
+        setLoader(false);
+      });
+  };
+
+  const saveUser = (name, email, role) => {
+    const user = { name, email, role };
+    fetch(
+      "https://a12-used-products-resalling-app-server-side.vercel.app/users",
+      {
+        method: "POST",
+        headers: {
+          "content-type": "application/json",
+        },
+        body: JSON.stringify(user),
+      }
+    )
+      .then((res) => res.json())
+      .then((data) => console.log(data));
+  };
+
   return (
     <div>
       <div>{loader && <Spinner></Spinner>}</div>
@@ -56,7 +98,10 @@ const LogIn = () => {
                 Login to your account
               </h3>
               <div className="mt-12 grid">
-                <button className="w-full h-11 rounded-full border border-gray-300/75 bg-white px-6 transition active:bg-gray-50 dark:bg-gray-700 dark:border-gray-600 dark:hover:bg-gray-800 dark:hover:border-gray-700">
+                <button
+                  onClick={signInWithGoogle}
+                  className="w-full h-11 rounded-full border border-gray-300/75 bg-white px-6 transition active:bg-gray-50 dark:bg-gray-700 dark:border-gray-600 dark:hover:bg-gray-800 dark:hover:border-gray-700"
+                >
                   <div className="w-max mx-auto flex items-center justify-center space-x-4">
                     <img
                       src="https://svgshare.com/i/ng7.svg"
