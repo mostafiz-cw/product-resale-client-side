@@ -1,11 +1,13 @@
-import React from 'react';
+import React from "react";
 
 const Dashboard = () => {
-    return (
-        <div>
-            <p>This is dashboard coming soon</p>
-        </div>
-    );
+  return (
+    <div>
+      <p className="flex justify-center text-2xl font-semibold">
+        Click Sidebar menu to see dashboard details.
+      </p>
+    </div>
+  );
 };
 
 export default Dashboard;

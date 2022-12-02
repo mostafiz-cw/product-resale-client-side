@@ -1,5 +1,5 @@
 import { GoogleAuthProvider } from "firebase/auth";
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import Spinner from "../Components/Spinner";
 import { AuthContext } from "../Contexts/AuthProvider";
@@ -15,11 +15,14 @@ const LogIn = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
-  const from = location.state?.from?.pathname || "/";
+  // console.log(from);
 
-  if (token) {
-    navigate(from, { replace: true });
-  }
+  useEffect(() => {
+    const from = location.state?.from?.pathname || "/";
+    if (token) {
+      navigate(from, { replace: true });
+    }
+  }, [token, location, navigate]);
 
   // log in with email and password
   const handleLogin = (event) => {
