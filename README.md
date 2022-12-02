@@ -32,6 +32,9 @@
 # Features and Functionality
 ## Admin Access
 
+adminEmail: test@admin.com
+adminPassword: 123456
+
 
 
 

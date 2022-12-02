@@ -150,7 +150,6 @@ const SignUp = () => {
                           type="radio"
                           required
                           value="Buyer"
-                          checked="checked"
                           name="flexRadioDefault"
                           id="flexRadioDefault1"
                         />
